@@ -1,4 +1,3 @@
-
 FROM rust:1.79
 WORKDIR /usr/src/app
 COPY Cargo.toml Cargo.lock ./
