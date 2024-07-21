@@ -17,17 +17,14 @@ pub struct KeyPair {
 
 #[actix_web::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    // Initialize logging
     env_logger::init();
 
-    // Set the environment variable for Google Cloud credentials
+    //Google Cloud project credentials
     env::set_var("GOOGLE_APPLICATION_CREDENTIALS", "/Users/sneha/Downloads/lexical-period-401317-ea4d8a7c28cd.json");
 
-    // Google Cloud Storage client setup
     let config = ClientConfig::default().with_auth().await?;
     let client = Client::new(config);
 
-    // Mutex for shared state
     let keypairs: Arc<Mutex<Vec<KeyPair>>> = Arc::new(Mutex::new(Vec::new()));
 
     // Start the server
@@ -67,12 +64,13 @@ async fn add_keypair(
 async fn backup_keys_to_gcs(
     client: &Client,
     keypairs: &Arc<Mutex<Vec<KeyPair>>>,
-) -> Result<()> {
-    let bucket = "key-backup";
+) -> Result<()> {   //transfer keys to Google Cloud bucket
+    let bucket = "key-backup"; //your bucket name
     let keypairs = keypairs.lock().unwrap();
     for (i, keypair) in keypairs.iter().enumerate() {
         let data = format!("{:?}", keypair);
-        info!("Processing keypair {}: {:?}", i, keypair); // Log the keypair
+        //Keypair logging
+        info!("Processing keypair {}: {:?}", i, keypair); 
         let object_name = format!("backup-keys-{}", i);
         let upload_request = UploadObjectRequest {
             bucket: bucket.to_string(),
