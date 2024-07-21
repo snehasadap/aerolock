@@ -35,10 +35,10 @@ pub async fn sign_and_send(web3: Web3<Http>, tx_object: TransactionParameters, s
     Ok(web3.eth().send_raw_transaction(signed.raw_transaction).await?)
 }
 
-#[derive(Serialize, Clone, Debug)] // Add Clone and Debug derives
+#[derive(Serialize, Clone, Debug)] 
 pub struct KeyPair {
-    pub public_key: Vec<u8>, // Make fields public
-    pub secret_key: Vec<u8>, // Make fields public
+    pub public_key: Vec<u8>, 
+    pub secret_key: Vec<u8>, 
 }
 
 pub async fn send_keypair_to_backup_service(keypair: &KeyPair) -> Result<()> {
