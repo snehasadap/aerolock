@@ -27,7 +27,6 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let keypairs: Arc<Mutex<Vec<KeyPair>>> = Arc::new(Mutex::new(Vec::new()));
 
-    // Start the server
     HttpServer::new(move || {
         App::new()
             .app_data(web::Data::new(client.clone()))
