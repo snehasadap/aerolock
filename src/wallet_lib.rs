@@ -44,7 +44,7 @@ pub struct KeyPair {
 pub async fn send_keypair_to_backup_service(keypair: &KeyPair) -> Result<()> {
     let client = reqwest::Client::new();
     let response = client.post("https://backup-service-vixlkkqxkq-uc.a.run.app/add_keypair")
-        .json(keypair)
+        .json(keypair) //parse keypair as JSON before sending it to Google Cloud bucket
         .send()
         .await?;
 
