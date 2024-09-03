@@ -20,7 +20,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     env_logger::init();
 
     //Google Cloud project credentials
-    env::set_var("GOOGLE_APPLICATION_CREDENTIALS", "/Users/sneha/Downloads/lexical-period-401317-ea4d8a7c28cd.json");
+    env::set_var("GOOGLE_APPLICATION_CREDENTIALS", "<your credentials>");
 
     let config = ClientConfig::default().with_auth().await?;
     let client = Client::new(config);
@@ -64,7 +64,7 @@ async fn backup_keys_to_gcs(
     client: &Client,
     keypairs: &Arc<Mutex<Vec<KeyPair>>>,
 ) -> Result<()> {   //transfer keys to Google Cloud bucket
-    let bucket = "key-backup"; //your bucket name
+    let bucket = "<your-bucket-name>"; //your bucket name
     let keypairs = keypairs.lock().unwrap();
     for (i, keypair) in keypairs.iter().enumerate() {
         let data = format!("{:?}", keypair);
